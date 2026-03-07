@@ -21,28 +21,12 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_install() {
-	exeinto /usr/libexec
-	newexe "${BUILD_DIR}/${PN}" doomretro-bin
+	# Deixa o sistema nativo do jogo instalar tudo nos locais corretos
+	# (Binário em /usr/bin e recursos em /usr/share/doomretro)
+	cmake_src_install
 
-	insinto /usr/share/doom
-	doins "${BUILD_DIR}/${PN}.wad"
-
-	cat << 'WRAPPER' > "${T}/doomretro"
-#!/bin/sh
-CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/doomretro"
-SAVE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/doomretro/savegames"
-
-mkdir -p "$CONFIG_DIR"
-mkdir -p "$SAVE_DIR"
-
-exec /usr/libexec/doomretro-bin \
-	-iwad /usr/share/doom/doomretro.wad \
-	-config "$CONFIG_DIR/doomretro.cfg" \
-	-savedir "$SAVE_DIR" \
-	"$@"
-WRAPPER
-
-	dobin "${T}/doomretro"
+	# Cria o ícone no menu de aplicativos do Linux
 	make_desktop_entry "doomretro" "DOOM Retro" "doomretro" "Game;ActionGame;"
+
 	einstalldocs
 }
