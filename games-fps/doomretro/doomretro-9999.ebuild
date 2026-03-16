@@ -13,6 +13,6 @@ KEYWORDS=""
 DEPEND="
     media-libs/libsdl2[opengl,sound,video]
     media-libs/sdl2-image[png]
-    media-libs/sdl2-mixer[flac,mod,mp3,ogg]
+    media-libs/sdl2-mixer[flac,mod,mp3,vorbis]
 "
 RDEPEND="${DEPEND}"
